@@ -1,0 +1,15 @@
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\bin\Debug\net5.0\WebFileSystem.DataAccess.deps.json
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\bin\Debug\net5.0\WebFileSystem.DataAccess.runtimeconfig.json
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\bin\Debug\net5.0\WebFileSystem.DataAccess.runtimeconfig.dev.json
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\bin\Debug\net5.0\WebFileSystem.DataAccess.dll
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\bin\Debug\net5.0\WebFileSystem.DataAccess.pdb
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.AssemblyInfoInputs.cache
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.AssemblyInfo.cs
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.dll
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\refint\WebFileSystem.DataAccess.dll
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.pdb
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\WebFileSystem.DataAccess.genruntimeconfig.cache
+C:\Users\Serjo\source\repos\WebFileSystem\WebFileSystem.DataAccess\obj\Debug\net5.0\ref\WebFileSystem.DataAccess.dll
