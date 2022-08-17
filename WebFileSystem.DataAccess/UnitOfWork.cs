@@ -4,15 +4,13 @@ namespace WebFileSystem.DataAccess
 {
     public class UnitOfWork
     {
-        public UnitOfWork(FileRepository fileRepository, FolderRepository folderRepository, FileFolderRepository fileFolderRepository)
+        public UnitOfWork(FileRepository fileRepository, FolderRepository folderRepository)
         {
             FileRepository = fileRepository;
             FolderRepository = folderRepository;
-            FileFolderRepository = fileFolderRepository;
         }
 
         public FileRepository FileRepository { get; set; }
         public FolderRepository FolderRepository { get; set; }
-        public FileFolderRepository FileFolderRepository { get; set; }
     }
 }

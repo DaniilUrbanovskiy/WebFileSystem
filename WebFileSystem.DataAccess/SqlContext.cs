@@ -11,6 +11,10 @@ namespace WebFileSystem.DataAccess
         }
         public DbSet<File> File { get; set; }
         public DbSet<Folder> Folder { get; set; }
-        public DbSet<FileFolder> FileFolder { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

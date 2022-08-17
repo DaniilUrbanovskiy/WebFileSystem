@@ -8,5 +8,6 @@ namespace WebFileSystem.DataAccess.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string ContentPath { get; set; }
+        public Folder Folder { get; set; }
     }
 }
