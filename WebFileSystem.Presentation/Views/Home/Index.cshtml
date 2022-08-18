@@ -1,8 +1,28 @@
-﻿@{
+﻿@model List<FolderModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@using (Html.BeginForm("AddFolder", "Home", FormMethod.Post))
+{
+    <input type="text" placeholder="Folder Name" name="Name">
+
+    <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
+   
+    <button role="button" type="submit">Add</button>
+}
+
+@using (Html.BeginForm("RemoveFolder", "Home", FormMethod.Post))
+{
+    <input type="text" placeholder="Folder Name" name="Name">
+    //Add     <input type="hidden" name="ParentId" value=@ViewData["FolderId"]> (To receive ParentId in remove action)
+
+    <button role="button" type="submit">Remove</button>
+}
+
+@foreach(var item in Model)
+{
+    <p></p>
+    <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>   
+}

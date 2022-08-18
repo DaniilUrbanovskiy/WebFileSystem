@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebFileSystem.DataAccess;
+using WebFileSystem.DataAccess.Repository;
+using WebFileSystem.Services;
 
 namespace WebFileSystem.Presentation
 {
@@ -22,6 +24,8 @@ namespace WebFileSystem.Presentation
         {
             services.AddControllersWithViews();
             services.AddDbContext<SqlContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlContext")));
+            services.AddTransient<FolderRepository>();
+            services.AddTransient<FolderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

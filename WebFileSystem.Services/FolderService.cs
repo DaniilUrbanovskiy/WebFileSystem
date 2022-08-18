@@ -1,36 +1,60 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebFileSystem.DataAccess;
 using WebFileSystem.DataAccess.Domain.Entities;
+using WebFileSystem.DataAccess.Repository;
 
 namespace WebFileSystem.Services
 {
     public class FolderService
     {
-        private readonly UnitOfWork _unitOfWork;
-        public FolderService(UnitOfWork unitOfWork)
+        private readonly FolderRepository _folderRepository;
+        public FolderService(FolderRepository folderRepository)
         {
-            _unitOfWork = unitOfWork;
+            _folderRepository = folderRepository;
         }
 
         public async Task AddFolder(string folderName, int? parentId = null) 
         {
-            await _unitOfWork.FolderRepository.Add(new Folder()
+            await _folderRepository.Add(new Folder()
             {
                 Name = folderName,
                 ParentId = parentId
             });
         }
 
-        public async Task RemoveFolder(string folderName) 
+        public async Task<List<Folder>> GetFolders(int? folderId = null)
         {
-            var folder = await _unitOfWork.FolderRepository.GetByName(folderName);
+            return folderId == null ? await GetRootFolders() : await GetChildFolders(folderId);
+        }
 
-            //var files = await _unitOfWork.FileRepository.Get();
+        public async Task RemoveByName(string folderName) 
+        {
+            var folder = await _folderRepository.GetBy(folderName);
 
-            var childFolders = await _unitOfWork.FolderRepository.GetChilds(folder.Id);
+            await RemoveFolders(folder);
+        }
 
+        private async Task RemoveFolders(Folder folder) 
+        {         
+            var childFolders = await _folderRepository.GetChildFolders(folder.Id);
 
+            await _folderRepository.Remove(folder);
+
+            foreach (var item in childFolders)
+            {
+                await RemoveFolders(item);
+            }
+            return;//TODO: return?
+        }
+
+        private async Task<List<Folder>> GetRootFolders()
+        {
+            return await _folderRepository.GetRootFolders();
+        }
+
+        private async Task<List<Folder>> GetChildFolders(int? folderId = null)
+        {
+            return await _folderRepository.GetChildFolders(folderId);
         }
     }
 }

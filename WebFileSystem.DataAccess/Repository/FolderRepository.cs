@@ -26,14 +26,24 @@ namespace WebFileSystem.DataAccess.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Folder>> GetChilds(int folderId)
+        public async Task<List<Folder>> GetChildFolders(int? folderId)
         {
             return await _context.Folder.Where(x => x.ParentId == folderId).ToListAsync();
         }
 
-        public async Task<Folder> GetByName(string folderName)
+        public async Task<List<Folder>> GetRootFolders()
+        {
+            return await _context.Folder.Where(x => x.ParentId == null).ToListAsync();
+        }
+
+        public async Task<Folder> GetBy(string folderName)
         {
             return await _context.Folder.FirstOrDefaultAsync(x => x.Name == folderName);
+        }
+
+        public async Task<Folder> GetBy(int? folderId)
+        {
+            return await _context.Folder.FirstOrDefaultAsync(x => x.Id == folderId);
         }
     }
 }

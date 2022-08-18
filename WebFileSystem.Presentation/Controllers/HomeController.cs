@@ -1,30 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using WebFileSystem.Presentation.Models;
+using WebFileSystem.Services;
 
 namespace WebFileSystem.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly FolderService _folderService;
+        public HomeController(FolderService folderService)
         {
-            return View();
+            _folderService = folderService;
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public async Task<IActionResult> Index(int? folderId)
         {
-            return View();
+            var folders = FolderModel.Mapper(await _folderService.GetFolders(folderId));
+            ViewData["FolderId"] = folderId;
+            return View(folders);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddFolder(FolderModel folderModel)
+        {
+            await _folderService.AddFolder(folderModel.Name, folderModel.ParentId);
+            return RedirectToAction("Index", "Home", new { @folderId = folderModel.ParentId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveFolder(FolderModel folderModel)
+        {
+            await _folderService.RemoveByName(folderModel.Name);
+            return RedirectToAction("Index", "Home", new { @folderId = folderModel.ParentId});
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
