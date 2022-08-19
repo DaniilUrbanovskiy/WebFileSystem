@@ -26,6 +26,11 @@ namespace WebFileSystem.DataAccess.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> IsExists(string folderName, int? parentId)
+        {
+            return await _context.Folder.Where(x => x.Name == folderName && x.ParentId == parentId).AnyAsync();
+        }
+
         public async Task<List<Folder>> GetChildFolders(int? folderId)
         {
             return await _context.Folder.Where(x => x.ParentId == folderId).ToListAsync();
@@ -36,9 +41,9 @@ namespace WebFileSystem.DataAccess.Repository
             return await _context.Folder.Where(x => x.ParentId == null).ToListAsync();
         }
 
-        public async Task<Folder> GetBy(string folderName)
+        public async Task<Folder> GetBy(string folderName, int? parentId)
         {
-            return await _context.Folder.FirstOrDefaultAsync(x => x.Name == folderName);
+            return await _context.Folder.Where(x => x.Name == folderName && x.ParentId == parentId).FirstOrDefaultAsync();
         }
 
         public async Task<Folder> GetBy(int? folderId)

@@ -6,7 +6,7 @@
 
 @using (Html.BeginForm("AddFolder", "Home", FormMethod.Post))
 {
-    <input type="text" placeholder="Folder Name" name="Name">
+    <input type="text" placeholder="Folder Name" name="Name" >
 
     <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
    
@@ -15,11 +15,13 @@
 
 @using (Html.BeginForm("RemoveFolder", "Home", FormMethod.Post))
 {
-    <input type="text" placeholder="Folder Name" name="Name">
-    //Add     <input type="hidden" name="ParentId" value=@ViewData["FolderId"]> (To receive ParentId in remove action)
+    <input type="text" placeholder="Folder Name" name="Name" >
+    <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
 
     <button role="button" type="submit">Remove</button>
 }
+
+<h5>@ViewBag.ResponseMessage</h5>
 
 @foreach(var item in Model)
 {
