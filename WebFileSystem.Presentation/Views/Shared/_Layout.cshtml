@@ -41,5 +41,24 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
+      <script>
+        document.getElementById('uploader').onsubmit = function () {
+            var request = new XMLHttpRequest();
+
+            var rootFolder = $("#files");
+            var childFoldersWithFiles = rootFolder[0].files;
+
+            var requestData = new FormData();
+            for (var i = 0; i < childFoldersWithFiles.length; i++) {
+                   requestData.append("arr[]", childFoldersWithFiles[i].webkitRelativePath);
+            }
+
+            request.open('POST', '@Url.Action("ImportFolder","Home")',false);
+            request.send(requestData);
+        }
+    </script>
+
 </body>
 </html>

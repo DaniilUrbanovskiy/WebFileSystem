@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using WebFileSystem.DataAccess.Domain.Entities;
 using WebFileSystem.DataAccess.Repository;
@@ -18,12 +17,12 @@ namespace WebFileSystem.Services
         {
             if (string.IsNullOrEmpty(folderName))
             {
-                return WebServerError.NoName;
+                return Result.NoName;
             }
             var isExists = await _folderRepository.IsExists(folderName, parentId);
             if (isExists)
             {
-                return WebServerError.Exists;
+                return Result.Exists;
             }
             await _folderRepository.Add(new Folder()
             {
@@ -31,7 +30,7 @@ namespace WebFileSystem.Services
                 ParentId = parentId
             });
 
-            return WebServerError.Created;
+            return Result.Created;
         }
 
         public async Task<List<Folder>> GetFolders(int? folderId = null)
@@ -43,18 +42,18 @@ namespace WebFileSystem.Services
         {
             if (string.IsNullOrEmpty(folderName))
             {
-                return WebServerError.NoName;
+                return Result.NoName;
             }
             var isExists = await _folderRepository.IsExists(folderName, parentId);
             if (!isExists)
             {
-                return WebServerError.WrongName;
+                return Result.WrongName;
             }
             var folder = await _folderRepository.GetBy(folderName, parentId);
 
             await RemoveFolders(folder);
 
-            return WebServerError.Removed;
+            return Result.Removed;
         }
 
         private async Task RemoveFolders(Folder folder) 

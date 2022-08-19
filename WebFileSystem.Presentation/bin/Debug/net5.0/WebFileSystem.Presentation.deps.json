@@ -39,6 +39,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "5.0.17",
           "WebFileSystem.DataAccess": "1.0.0",
           "WebFileSystem.Services": "1.0.0",
+          "system.web.mvc": "5.1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -1341,6 +1342,17 @@
         },
         "compile": {
           "WebFileSystem.Services.dll": {}
+        }
+      },
+      "system.web.mvc/5.1.0.0": {
+        "runtime": {
+          "system.web.mvc.dll": {
+            "assemblyVersion": "5.1.0.0",
+            "fileVersion": "5.1.20110.0"
+          }
+        },
+        "compile": {
+          "system.web.mvc.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -3723,6 +3735,11 @@
     },
     "WebFileSystem.Services/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "system.web.mvc/5.1.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     },

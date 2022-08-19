@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using System.Threading.Tasks;
 using WebFileSystem.Presentation.Models;
 using WebFileSystem.Services;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace WebFileSystem.Presentation.Controllers
 {
@@ -39,5 +41,16 @@ namespace WebFileSystem.Presentation.Controllers
             return RedirectToAction("Index", "Home", new { @folderId = folderModel.ParentId, @responseMessage = responseMessage });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ImportFolder(string[] arr)
+        {
+            var files = Request.Form.Files;
+            return Ok();    
+        }
+
+        public class A
+        {
+            public string data { get; set; }
+        }
     }
 }

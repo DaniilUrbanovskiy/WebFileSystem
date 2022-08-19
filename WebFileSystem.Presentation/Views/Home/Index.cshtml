@@ -4,6 +4,14 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+@using (Html.BeginForm("ImportFolder", "Home", FormMethod.Post,new { id="uploader"}))
+{
+    <label class="label-default" for="files">Update Folder</label>
+    <input type="file" id="files" name="files" webkitdirectory />
+    <input type="submit" value="Ok" />
+}
+
 @using (Html.BeginForm("AddFolder", "Home", FormMethod.Post))
 {
     <input type="text" placeholder="Folder Name" name="Name" >
