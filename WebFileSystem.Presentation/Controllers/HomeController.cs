@@ -5,6 +5,8 @@ using WebFileSystem.Services;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 namespace WebFileSystem.Presentation.Controllers
 {
@@ -42,15 +44,10 @@ namespace WebFileSystem.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ImportFolder(string[] arr)
+        public async Task<IActionResult> ImportFolderFromArray(string[] folders)
         {
-            var files = Request.Form.Files;
-            return Ok();    
-        }
-
-        public class A
-        {
-            public string data { get; set; }
+            var a = folders.Select(x => Path.HasExtension(x));
+            return RedirectToAction("Index", "Home");
         }
     }
 }
