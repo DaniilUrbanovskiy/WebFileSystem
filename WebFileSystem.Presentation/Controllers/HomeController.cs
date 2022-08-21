@@ -44,10 +44,11 @@ namespace WebFileSystem.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ImportFolderFromArray(string[] folders)
+        public async Task<IActionResult> ImportFolderFromCatalog(string[] folders, int? parentId = null)
         {
-            var a = folders.Select(x => Path.HasExtension(x));
-            return RedirectToAction("Index", "Home");
+            var responseMessage = await _folderService.ImportCatalogStructure(folders, parentId);
+
+            return RedirectToAction("Index", "Home", new { @folderId = parentId, @responseMessage = responseMessage });
         }
     }
 }

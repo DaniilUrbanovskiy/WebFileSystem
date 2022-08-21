@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebFileSystem.DataAccess.Domain.Entities;
 using WebFileSystem.DataAccess.Repository;
@@ -65,6 +66,49 @@ namespace WebFileSystem.Services
             foreach (var item in childFolders)
             {
                 await RemoveFolders(item);
+            }
+        }
+
+        public async Task<string> ImportCatalogStructure(string[] folders, int? parentId)
+        {
+            await CreateStructure(folders);
+            return Result.Created;
+        }
+
+        private async Task<string> CreateStructure(string[] folders, int? parentId)
+        {
+            var folderArray = new List<string[]>();
+            for (int i = 0; i < folders.Length; i++)
+            {
+                folderArray.Add(folders[i].Split('/'));
+            }
+
+            var singleFolder = string.Empty;
+            var folder = new Folder();
+            for (int i = 0; i < folderArray.Count; i++)
+            {
+                for (int j = 0; j < folderArray[i].Length; j++)
+                {
+                    if (j == 0)
+                    {
+                        var isExists = await AddFolder(folderArray[i][j], parentId);
+                        if (isExists == Result.Exists)
+                        {
+                            return Result.Exists;
+                        }                
+                        folder = await _folderRepository.GetBy(folderArray[i][j], parentId);
+                        singleFolder = folderArray[i][j];
+                    }
+                    else
+                    {
+                        if (folderArray[i][j] != singleFolder)
+                        {
+
+                        }
+                        var isExists = await AddFolder(folderArray[i][j], folder.Id);
+                        folder = await _folderRepository.GetBy(folderArray[i][j], folder.Id);
+                    }                 
+                }
             }
         }
 

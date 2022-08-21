@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-@using (Html.BeginForm("ImportFolder", "Home", FormMethod.Post,new { id="uploader"}))
+@using (Html.BeginForm("ImportFolderFromCatalog", "Home", FormMethod.Post, new { id = "uploader" }))
 {
     <div id="dropzone">
         <div id="boxtitle">
@@ -28,6 +28,7 @@
 @using (Html.BeginForm("RemoveFolder", "Home", FormMethod.Post))
 {
     <input type="text" placeholder="Folder Name" name="Name" >
+
     <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
 
     <button role="button" type="submit">Remove</button>
