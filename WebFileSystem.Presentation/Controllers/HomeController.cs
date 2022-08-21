@@ -46,7 +46,11 @@ namespace WebFileSystem.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> ImportFolderFromCatalog(string[] folders, int? parentId = null)
         {
-            var responseMessage = await _folderService.ImportCatalogStructure(folders, parentId);
+            if (folders.Length <= 0)
+            {
+                return RedirectToAction("Index", "Home", new { @folderId = "", @responseMessage = ""});
+            }
+            var responseMessage = await _folderService.CreateStructure(folders, parentId);
 
             return RedirectToAction("Index", "Home", new { @folderId = parentId, @responseMessage = responseMessage });
         }

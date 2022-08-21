@@ -69,47 +69,31 @@ namespace WebFileSystem.Services
             }
         }
 
-        public async Task<string> ImportCatalogStructure(string[] folders, int? parentId)
+        private async Task AddFolders(string foldersPath, int? parentId)
         {
-            await CreateStructure(folders);
-            return Result.Created;
+            if (string.IsNullOrEmpty(foldersPath))
+            {
+                return;
+            }
+            
+            var folders = foldersPath.Split("/").Where(x => x != "").ToList();
+
+            var result = await AddFolder(folders[0], parentId);
+
+            var folder = await _folderRepository.GetBy(folders[0], parentId);
+
+            folders.RemoveAt(0);
+
+            await AddFolders(string.Join('/', folders), folder.Id);
         }
 
-        private async Task<string> CreateStructure(string[] folders, int? parentId)
+        public async Task<string> CreateStructure(string[] folders, int? parentId)
         {
-            var folderArray = new List<string[]>();
             for (int i = 0; i < folders.Length; i++)
             {
-                folderArray.Add(folders[i].Split('/'));
+                await AddFolders(folders[i], parentId);
             }
-
-            var singleFolder = string.Empty;
-            var folder = new Folder();
-            for (int i = 0; i < folderArray.Count; i++)
-            {
-                for (int j = 0; j < folderArray[i].Length; j++)
-                {
-                    if (j == 0)
-                    {
-                        var isExists = await AddFolder(folderArray[i][j], parentId);
-                        if (isExists == Result.Exists)
-                        {
-                            return Result.Exists;
-                        }                
-                        folder = await _folderRepository.GetBy(folderArray[i][j], parentId);
-                        singleFolder = folderArray[i][j];
-                    }
-                    else
-                    {
-                        if (folderArray[i][j] != singleFolder)
-                        {
-
-                        }
-                        var isExists = await AddFolder(folderArray[i][j], folder.Id);
-                        folder = await _folderRepository.GetBy(folderArray[i][j], folder.Id);
-                    }                 
-                }
-            }
+            return Result.Created;
         }
 
         private async Task<List<Folder>> GetRootFolders()
