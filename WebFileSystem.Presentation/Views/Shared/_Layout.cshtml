@@ -115,7 +115,8 @@
                    requestData.append("folders[]", foldersList[i]);
             }
 
-            requestData.append("parentId", @ViewData["FolderId"])
+            const folderId = document.getElementById("parentId").value;
+            requestData.append("parentId", folderId)
 
             request.open('POST', '@Url.Action("ImportFolderFromCatalog","Home")',false);
             request.send(requestData);
