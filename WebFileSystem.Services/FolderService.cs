@@ -87,13 +87,30 @@ namespace WebFileSystem.Services
             await AddFolders(string.Join('/', folders), folder.Id);
         }
 
-        public async Task<string> CreateStructure(string[] folders, int? parentId)
+        public async Task<List<string>> CreateStructure(string[] folders, int? parentId)
         {
+            var results = new List<string>();
+
+            for (int i = 0; i < folders.Length; i++)
+            {
+                var folderPathes = folders[i].Split('/');
+                if (folderPathes.Length <= 1)
+                {
+                    continue;
+                }
+                var firstFolder = string.IsNullOrEmpty(folderPathes[0]) ? folderPathes[1] : folderPathes[0];
+                var isExists = await _folderRepository.IsExists(firstFolder, parentId);
+                if (isExists)
+                {
+                    results.Add(Result.Exists);
+                }
+            }
+
             for (int i = 0; i < folders.Length; i++)
             {
                 await AddFolders(folders[i], parentId);
             }
-            return Result.Created;
+            return results;
         }
 
         private async Task<List<Folder>> GetRootFolders()

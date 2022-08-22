@@ -26,6 +26,7 @@ namespace WebFileSystem.Presentation
             services.AddDbContext<SqlContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlContext")));
             services.AddTransient<FolderRepository>();
             services.AddTransient<FolderService>();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +48,8 @@ namespace WebFileSystem.Presentation
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

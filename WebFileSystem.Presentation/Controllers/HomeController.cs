@@ -47,11 +47,24 @@ namespace WebFileSystem.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> ImportFolderFromCatalog(string[] folders, int? parentId = null)
         {
+            if (folders == null)
+            {
+                HttpContext.Session.SetString("FolderId", parentId.ToString());
+                HttpContext.Session.SetString("ResponseMessage", Result.BigFile);
+                return RedirectToAction("Index", "Home", new { @folderId = parentId, @responseMessage = Result.BigFile });
+            }
+
             if (folders.Length <= 0)
             {
-                return RedirectToAction("Index", "Home", new { @folderId = "", @responseMessage = ""});
+                var foldeId = HttpContext.Session.GetString("FolderId");
+                var message = HttpContext.Session.GetString("ResponseMessage");
+                return RedirectToAction("Index", "Home", new { @folderId = foldeId, @responseMessage = message });
             }
             var responseMessage = await _folderService.CreateStructure(folders, parentId);
+
+            var result = responseMessage.Contains(Result.Exists) ? Result.Exists : Result.Created;
+            HttpContext.Session.SetString("ResponseMessage", result);
+            HttpContext.Session.SetString("FolderId", parentId.ToString());
 
             return RedirectToAction("Index", "Home", new { @folderId = parentId, @responseMessage = responseMessage });
         }
