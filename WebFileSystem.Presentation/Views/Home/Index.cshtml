@@ -4,6 +4,15 @@
     ViewData["Title"] = "Home Page";
 }
 
+@using (Html.BeginForm("ImportFolderFromFile", "Home", FormMethod.Post, new {enctype="multipart/form-data"}))
+{
+    <input type="file" accept=".txt" name="file" required >
+
+    <input type="hidden" name="parentId" value=@ViewData["FolderId"]>
+   
+    <button role="button" type="submit">Import</button>
+}
+
 @using (Html.BeginForm("ImportFolderFromCatalog", "Home", FormMethod.Post, new { id = "uploader" }))
 {
     <div id="dropzone">

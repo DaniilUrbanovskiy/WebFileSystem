@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 namespace WebFileSystem.Presentation.Controllers
 {
@@ -54,5 +55,19 @@ namespace WebFileSystem.Presentation.Controllers
 
             return RedirectToAction("Index", "Home", new { @folderId = parentId, @responseMessage = responseMessage });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportFolderFromFile(IFormFile file, int? parentId = null)
+        {
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(reader.ReadLine());
+            }
+            var folders = result.ToString().Split("\r\n");
+            return await ImportFolderFromCatalog(folders, parentId);
+        }
+
     }
 }
