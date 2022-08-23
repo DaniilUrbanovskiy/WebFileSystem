@@ -2,18 +2,20 @@
 using System.Threading.Tasks;
 using WebFileSystem.Presentation.Models;
 using WebFileSystem.Services;
-using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
+using WebFileSystem.DataAccess.Domain.Entities;
+using System;
 
 namespace WebFileSystem.Presentation.Controllers
 {
     public class HomeController : Controller
     {
         private readonly FolderService _folderService;
+
         public HomeController(FolderService folderService)
         {
             _folderService = folderService;
@@ -36,7 +38,7 @@ namespace WebFileSystem.Presentation.Controllers
 
             return RedirectToAction("Index", "Home", new { @folderId = folderModel.ParentId, @responseMessage = responseMessage });
         }
-        [HttpPost]
+
         public async Task<IActionResult> RemoveFolder(FolderModel folderModel)
         {
             var responseMessage = await _folderService.RemoveByName(folderModel.Name, folderModel.ParentId);
@@ -82,5 +84,46 @@ namespace WebFileSystem.Presentation.Controllers
             return await ImportFolderFromCatalog(folders, parentId);
         }
 
+        public async Task<IActionResult> ExportStructure(FolderModel folderModel)
+        {
+            var result = await _folderService.GetStructureByName(folderModel.Name, folderModel.ParentId);
+
+            var structuredFolders = new List<string>();
+            var lineBuilder = new StringBuilder();
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                lineBuilder = await AppendPaths(result[result.Count - i - 1], lineBuilder, result);
+                structuredFolders.Add(lineBuilder.ToString());
+                lineBuilder.Clear();
+            }
+
+            int structureCount = structuredFolders.Count;
+            for (int i = 0; i < structuredFolders.Count; i++)
+            {
+                if (result.Where(x => x.ParentId == result.FirstOrDefault(x => x.Name == structuredFolders[i].Split("/").LastOrDefault()).Id).Any())
+                {
+                    structuredFolders.Remove(structuredFolders[i]);
+                }
+            }
+            structuredFolders.RemoveAt(structuredFolders.Count - 1);
+
+
+            var foldersToString = string.Join("\n", structuredFolders);
+            var foldersToBytes = Encoding.UTF8.GetBytes(foldersToString);
+            return File(foldersToBytes, "application/octet-stream");
+
+        }
+
+        private async Task<StringBuilder> AppendPaths(Folder folder, StringBuilder lineBuilder, List<Folder> result)
+        {
+            lineBuilder.Insert(0, "/" + folder.Name);
+            if (folder.ParentId == null)
+            {
+                return lineBuilder;
+            }
+            lineBuilder = await AppendPaths(result.Where(x => x.Id == folder.ParentId).FirstOrDefault(), lineBuilder, result);
+            return lineBuilder;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebFileSystem.DataAccess.Domain.Entities;
@@ -55,6 +56,29 @@ namespace WebFileSystem.Services
             await RemoveFolders(folder);
 
             return Result.Removed;
+        }
+
+        public async Task<List<Folder>> GetStructureByName(string folderName, int? parentId)
+        {
+            var folder = await _folderRepository.GetBy(folderName, parentId);
+
+            var folders = new List<Folder>();
+            
+            folders = await GetStructure(folder, folders);
+            folders.Add(folder);
+            return folders.OrderBy(x => x.ParentId).ToList();
+        }
+
+        private async Task<List<Folder>> GetStructure(Folder folder, List<Folder> folders)
+        {
+            var childFolders = await _folderRepository.GetChildFolders(folder.Id);
+
+            foreach (var item in childFolders)
+            {
+                folders.Add(item);
+                await GetStructure(item, folders);
+            }
+            return folders;
         }
 
         private async Task RemoveFolders(Folder folder) 

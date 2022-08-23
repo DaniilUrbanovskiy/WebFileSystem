@@ -4,14 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-@using (Html.BeginForm("ImportFolderFromFile", "Home", FormMethod.Post, new {enctype="multipart/form-data"}))
-{
-    <input type="file" accept=".txt" name="file" required >
-
-    <input type="hidden" name="parentId" value=@ViewData["FolderId"]>
-   
-    <button role="button" type="submit">Import</button>
-}
 
 @using (Html.BeginForm("ImportFolderFromCatalog", "Home", FormMethod.Post, new { id = "uploader" }))
 {
@@ -19,34 +11,66 @@
         <div id="boxtitle">
             Drop your folder here
         </div>
+            <input type="submit" value="Send"/>
     </div>
     <ul id="listing" ></ul>
-     <input type="hidden" id="parentId" value=@ViewData["FolderId"]>
-    <input type="submit" value="Ok" />
+     <input type="hidden" id="parentId" value=@ViewData["FolderId"]><br/><br/><br/>
 }
 
-@using (Html.BeginForm("AddFolder", "Home", FormMethod.Post))
-{
-    <input type="text" placeholder="Folder Name" name="Name" >
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @using (Html.BeginForm("AddFolder", "Home", FormMethod.Post))
+                    {
+                        <input type="text" placeholder="Folder Name" name="Name" >
 
-    <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
+                        <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
    
-    <button role="button" type="submit">Add</button>
-}
+                        <button role="button" type="submit">Add</button>
+                    }
+                </th>
+                <th>
+                    @using (Html.BeginForm("ImportFolderFromFile", "Home", FormMethod.Post, new {enctype="multipart/form-data"}))
+                    {
+                        <input type="file" accept=".txt" name="file" required >
 
-@using (Html.BeginForm("RemoveFolder", "Home", FormMethod.Post))
-{
-    <input type="text" placeholder="Folder Name" name="Name" >
-
-    <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
-
-    <button role="button" type="submit">Remove</button>
-}
+                        <input type="hidden" name="parentId" value=@ViewData["FolderId"]>
+   
+                        <button role="button" type="submit" style="margin:0px -208.5px 0px -88px">Import</button>
+                    }
+                </th>             
+            </tr>
+        </thead>
+ </table>
 
 <h5>@ViewBag.ResponseMessage</h5>
 
-@foreach(var item in Model)
-{
-    <p></p>
-    <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>   
-}
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                        Name
+                </th>
+                <th>
+                        Actions
+                </th>
+                <th>                
+                <th></th>
+            </tr>
+        </thead>
+            <tbody>
+                   @foreach(var item in Model)
+                    {   
+                        <tr>
+                            <td>
+                                <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>
+                            </td>
+                            <td>
+                                 <button><a asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt">Export</a></button> 
+                                 <button><a asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name">Remove</a></button>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+ </table>
