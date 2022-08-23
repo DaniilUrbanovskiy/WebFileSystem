@@ -17,9 +17,9 @@ namespace WebFileSystem.Services
 
         public async Task<string> AddFolder(string folderName, int? parentId = null) 
         {
-            if (string.IsNullOrEmpty(folderName))
+            if (string.IsNullOrEmpty(folderName) || folderName.Contains('/'))
             {
-                return Result.NoName;
+                return Result.IncorrectName;
             }
             var isExists = await _folderRepository.IsExists(folderName, parentId);
             if (isExists)
@@ -44,7 +44,7 @@ namespace WebFileSystem.Services
         {
             if (string.IsNullOrEmpty(folderName))
             {
-                return Result.NoName;
+                return Result.IncorrectName;
             }
             var isExists = await _folderRepository.IsExists(folderName, parentId);
             if (!isExists)

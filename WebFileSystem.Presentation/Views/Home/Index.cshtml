@@ -11,11 +11,13 @@
         <div id="boxtitle">
             Drop your folder here
         </div>
-            <input type="submit" value="Send"/>
+            <input type="submit" value="Import"/>
     </div>
     <ul id="listing" ></ul>
      <input type="hidden" id="parentId" value=@ViewData["FolderId"]><br/><br/><br/>
 }
+
+<a style="margin:0px 0px 0px 828.5px" asp-controller="Home" asp-action="DownloadTemplate" download="import_folders_template.txt">Click here to download import template</a>
 
 <table class="table">
         <thead>
@@ -39,7 +41,7 @@
    
                         <button role="button" type="submit" style="margin:0px -208.5px 0px -88px">Import</button>
                     }
-                </th>             
+                </th>   
             </tr>
         </thead>
  </table>

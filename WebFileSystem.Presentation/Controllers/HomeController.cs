@@ -104,15 +104,23 @@ namespace WebFileSystem.Presentation.Controllers
                 if (result.Where(x => x.ParentId == result.FirstOrDefault(x => x.Name == structuredFolders[i].Split("/").LastOrDefault()).Id).Any())
                 {
                     structuredFolders.Remove(structuredFolders[i]);
+                    i--;
                 }
             }
-            structuredFolders.RemoveAt(structuredFolders.Count - 1);
-
 
             var foldersToString = string.Join("\n", structuredFolders);
             var foldersToBytes = Encoding.UTF8.GetBytes(foldersToString);
             return File(foldersToBytes, "application/octet-stream");
 
+        }
+
+        public async Task<IActionResult> DownloadTemplate() 
+        {
+            var foldersToString = "/template/template3/template3_1/template3_1_1\n" +
+                                  "/template/template1/template1_1/template1_1_1\n" +
+                                  "/template/template2";
+            var foldersToBytes = Encoding.UTF8.GetBytes(foldersToString);
+            return File(foldersToBytes, "application/octet-stream");
         }
 
         private async Task<StringBuilder> AppendPaths(Folder folder, StringBuilder lineBuilder, List<Folder> result)
