@@ -11,7 +11,7 @@
         <div id="boxtitle">
             Drop your folder here
         </div>
-            <input type="submit" value="Import"/>
+            <input type="submit" value="Import" title="Import"/>
     </div>
     <ul id="listing" ></ul>
      <input type="hidden" id="parentId" value=@ViewData["FolderId"]><br/><br/><br/>
@@ -29,7 +29,7 @@
 
                         <input type="hidden" name="ParentId" value=@ViewData["FolderId"]>
    
-                        <button role="button" type="submit">Add</button>
+                        <button role="button" class="button-24" type="submit" title="Add">+</button>
                     }
                 </th>
                 <th>
@@ -39,7 +39,7 @@
 
                         <input type="hidden" name="parentId" value=@ViewData["FolderId"]>
    
-                        <button role="button" type="submit" style="margin:0px -208.5px 0px -88px">Import</button>
+                        <button role="button" type="submit" style="margin:0px -208.5px 0px -88px" title="Import">Import</button>
                     }
                 </th>   
             </tr>
@@ -69,8 +69,8 @@
                         <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>
                     </td>
                     <td>
-                            <button><a asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt">Export</a></button> 
-                            <button><a asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name">Remove</a></button>
+                        <button class="button-26"><a style="color: #FFFFFF" asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt" title="Download file">▼</a></button> 
+                        <button class="button-25"><a style="color: #FFFFFF" asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" title="Remove">×</a></button>
                     </td>
                 </tr>
             }
