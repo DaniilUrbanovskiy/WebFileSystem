@@ -69,7 +69,7 @@
                         <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>
                     </td>
                     <td>
-                        <button class="button-26"><a style="color: #FFFFFF" asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt" title="Download file">▼</a></button> 
+                        <button class="button-26"><a style="color: #FFFFFF" asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt" title="Download file">⇩</a></button> 
                         <button class="button-25"><a style="color: #FFFFFF" asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" title="Remove">×</a></button>
                     </td>
                 </tr>

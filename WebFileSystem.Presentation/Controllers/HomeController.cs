@@ -119,7 +119,7 @@ namespace WebFileSystem.Presentation.Controllers
             return File(foldersToBytes, "application/octet-stream");
         }
 
-        public async Task<IActionResult> DownloadTemplate() 
+        public IActionResult DownloadTemplate() 
         {
             var foldersToString = "/template/template3/template3_1/template3_1_1\n" +
                                   "/template/template1/template1_1/template1_1_1\n" +

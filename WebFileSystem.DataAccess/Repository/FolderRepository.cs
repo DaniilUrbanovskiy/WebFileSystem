@@ -45,10 +45,5 @@ namespace WebFileSystem.DataAccess.Repository
         {
             return await _context.Folder.Where(x => x.Name == folderName && x.ParentId == parentId).FirstOrDefaultAsync();
         }
-
-        public async Task<Folder> GetBy(int? folderId)
-        {
-            return await _context.Folder.FirstOrDefaultAsync(x => x.Id == folderId);
-        }
     }
 }
