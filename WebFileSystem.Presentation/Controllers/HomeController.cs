@@ -31,6 +31,12 @@ namespace WebFileSystem.Presentation.Controllers
 
             return View(folders);
         }
+
+        public IActionResult About() 
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddFolder(FolderModel folderModel)
         {
@@ -111,7 +117,6 @@ namespace WebFileSystem.Presentation.Controllers
             var foldersToString = string.Join("\n", structuredFolders);
             var foldersToBytes = Encoding.UTF8.GetBytes(foldersToString);
             return File(foldersToBytes, "application/octet-stream");
-
         }
 
         public async Task<IActionResult> DownloadTemplate() 
@@ -125,13 +130,21 @@ namespace WebFileSystem.Presentation.Controllers
 
         private async Task<StringBuilder> AppendPaths(Folder folder, StringBuilder lineBuilder, List<Folder> result)
         {
-            lineBuilder.Insert(0, "/" + folder.Name);
-            if (folder.ParentId == null)
+            try
+            {
+                lineBuilder.Insert(0, "/" + folder?.Name);
+                if (folder?.ParentId == null)
+                {
+                    return lineBuilder;
+                }
+
+                lineBuilder = await AppendPaths(result.Where(x => x.Id == folder?.ParentId).FirstOrDefault(), lineBuilder, result);
+                return lineBuilder;
+            }
+            catch (Exception)
             {
                 return lineBuilder;
             }
-            lineBuilder = await AppendPaths(result.Where(x => x.Id == folder.ParentId).FirstOrDefault(), lineBuilder, result);
-            return lineBuilder;
         }
     }
 }

@@ -61,18 +61,18 @@
                 <th></th>
             </tr>
         </thead>
-            <tbody>
-                   @foreach(var item in Model)
-                    {   
-                        <tr>
-                            <td>
-                                <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>
-                            </td>
-                            <td>
-                                 <button><a asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt">Export</a></button> 
-                                 <button><a asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name">Remove</a></button>
-                            </td>
-                        </tr>
-                    }
-            </tbody>
+        <tbody>
+            @foreach(var item in Model)
+            {   
+                <tr>
+                    <td>
+                        <h6><a role="button" asp-controller="Home" asp-action="Index" asp-route-folderId="@item.Id">@item.Name</a></h6>
+                    </td>
+                    <td>
+                            <button><a asp-controller="Home" asp-action="ExportStructure" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name" download="FileStructure.txt">Export</a></button> 
+                            <button><a asp-controller="Home" asp-action="RemoveFolder" asp-route-ParentId="@ViewData["FolderId"]" asp-route-Name="@item.Name">Remove</a></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
  </table>
